@@ -5,7 +5,7 @@ import { AiFillEye } from 'react-icons/ai'
 const Video = () => {
   return (
     <div className="video">
-      <div className="video__top">
+      <div className="video__thumbnail">
         <img
           src="https://i.ytimg.com/vi/Sv4w-nMt268/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBNJI53HyF8axhrlCis4mgxunNUAQ"
           alt=""
