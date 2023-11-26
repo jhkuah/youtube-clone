@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, React } from "react";
+import Header from "./components/Header/Header";
+import Sidebar from "./components/Sidebar/Sidebar";
+import { Container } from "react-bootstrap";
+import HomePage from "./pages/homePage/HomePage";
+import "./_app.scss";
+// import LoginPage from "./pages/loginPage/LoginPage";
 
-function App() {
+const App = () => {
+  // Sidebar toggle handler
+  const [sidebar, toggleSidebar] = useState(false);
+  const toggleSidebarHandler = () => toggleSidebar((value) => !value);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React test
-        </a>
-      </header>
+    <div>
+      <Header toggleSidebarHandler={toggleSidebarHandler} />
+      <div className="app__container">
+        <Sidebar
+          sidebar={sidebar}
+          toggleSidebarHandler={toggleSidebarHandler}
+        />
+        <Container className="app__main">
+          <HomePage />
+        </Container>
+      </div>
     </div>
+    // <LoginPage />
   );
-}
+};
 
 export default App;

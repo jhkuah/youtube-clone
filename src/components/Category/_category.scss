@@ -1,0 +1,30 @@
+@import "../../_base.scss";
+
+.category{
+    padding: 0.5rem 0;
+    font-size: 0.8rem;
+    display: flex;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar{
+        width: 0;
+    }
+    
+    span{
+        margin-right: 1rem;
+        padding: 0.5rem;
+        white-space: nowrap;
+        border: 1.4px solid $text-color;
+        border-radius: 50px;
+
+        &:hover{
+            background-color: $border-color;
+        }
+
+        &.active{
+            color: white;
+            background-color: $border-color;
+            border-color: $border-color;
+        }
+    }
+}
