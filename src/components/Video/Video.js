@@ -18,20 +18,23 @@ const Video = ({video}) => {
   const formattedDuration = moment.utc(seconds * 1000).format("mm:ss")
   const formattedViews = numeral(views).format("0.a").toUpperCase()
   const formattedPublishedAt = moment(publishedAt).fromNow()
+  const videoId = id?.videoId || id;
 
-  useEffect(()=> {
+  useEffect(() => {
     const videoDetails = async () => {
-     const {data: {items}} = await request('/videos', {
-      params: {
-        part: 'contentDetails, statistics',
-        id: id,
-      }
-     })
-     setDuration(items[0].contentDetails.duration)
-     setViews(items[0].statistics.viewCount)
-    }
-    videoDetails()
-  }, [id])
+      const {
+        data: { items },
+      } = await request("/videos", {
+        params: {
+          part: "contentDetails, statistics",
+          id: videoId,
+        },
+      });
+      setDuration(items[0].contentDetails.duration);
+      setViews(items[0].statistics.viewCount);
+    };
+    videoDetails();
+  }, [videoId]);
 
   useEffect(()=> {
     const fetchChannelIcon = async () => {
