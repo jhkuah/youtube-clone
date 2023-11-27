@@ -1,30 +1,71 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./_video.scss"
 import { AiFillEye } from 'react-icons/ai'
+import request from '../../api'
 
-const Video = () => {
+import moment from 'moment/moment'
+import numeral from 'numeral'
+
+const Video = ({video}) => {
+
+  const {id, snippet:{channelId, channelTitle, title, publishedAt, thumbnails:{medium}}}= video
+
+  const [views, setViews] = useState(null)
+  const [duration, setDuration] = useState(null)
+  const [channelIcon, setChannelIcon] = useState(null)
+
+  const seconds = moment.duration(duration).asSeconds()
+  const formattedDuration = moment.utc(seconds * 1000).format("mm:ss")
+  const formattedViews = numeral(views).format("0.a").toUpperCase()
+  const formattedPublishedAt = moment(publishedAt).fromNow()
+
+  useEffect(()=> {
+    const videoDetails = async () => {
+     const {data: {items}} = await request('/videos', {
+      params: {
+        part: 'contentDetails, statistics',
+        id: id,
+      }
+     })
+     setDuration(items[0].contentDetails.duration)
+     setViews(items[0].statistics.viewCount)
+    }
+    videoDetails()
+  }, [id])
+
+  useEffect(()=> {
+    const fetchChannelIcon = async () => {
+     const {data: {items}} = await request('/channels', {
+      params: {
+        part: 'snippet',
+        id: channelId,
+      }
+     })
+     setChannelIcon(items[0].snippet.thumbnails.default)
+    }
+    fetchChannelIcon()
+  }, [channelId])
+
+
   return (
     <div className="video">
       <div className="video__thumbnail">
-        <img
-          src="https://i.ytimg.com/vi/Sv4w-nMt268/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBNJI53HyF8axhrlCis4mgxunNUAQ"
-          alt=""
-        />
-        <span>05:43</span>
+        <img src={medium.url} alt="" />
+        <span>{formattedDuration}</span>
       </div>
-      <div className="video__title">Dummy Video</div>
+      <div className="video__title">{title}</div>
       <div className="video__details">
         <span>
-          <AiFillEye /> 5.2m views •
+          <AiFillEye /> {formattedViews} views •
         </span>
-        <span>1 day ago</span>
+        <span>{formattedPublishedAt}</span>
       </div>
       <div className="video__channel">
         <img
-          src="https://yt3.ggpht.com/MarOXJU0WEqT1NDnQI-OYQ-IJqIWvQ5v8-OO6tHsZCtbokWN4FiDpwxNwHLElqV0ypSO93Po=s68-c-k-c0x00ffffff-no-rj"
+          src={channelIcon?.url}
           alt=""
         />
-        <p>Jr Web Dev</p>
+        <p>{channelTitle}</p>
       </div>
     </div>
   );
