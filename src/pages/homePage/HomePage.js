@@ -3,7 +3,10 @@ import { Col, Container, Row } from "react-bootstrap";
 import Category from "../../components/Category/Category";
 import Video from "../../components/Video/Video";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPopularVideos, fetchVideosByCategory } from "../../redux/actions/video.action";
+import {
+  fetchPopularVideos,
+  fetchVideosByCategory,
+} from "../../redux/actions/video.action";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const HomePage = () => {
@@ -14,11 +17,9 @@ const HomePage = () => {
 
   const { videos, activeCategory } = useSelector((state) => state.homeVideos);
   const fetchData = () => {
-    if(activeCategory === "All"){
-    dispatch(fetchPopularVideos())
-    }
+    if (activeCategory === "All") dispatch(fetchPopularVideos());
     else {
-      dispatch(fetchVideosByCategory(activeCategory))
+      dispatch(fetchVideosByCategory(activeCategory));
     }
   };
   return (
