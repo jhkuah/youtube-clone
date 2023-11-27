@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import "./_category.scss"
 import { useDispatch } from 'react-redux';
-import { fetchVideosByCategory } from '../../redux/actions/video.action';
+import { fetchPopularVideos, fetchVideosByCategory } from '../../redux/actions/video.action';
 
 const keywords = [
     "All",
-    "React",
+    "ReactJS",
     "JavaScript",
     "CSS",
     "HTML",
@@ -23,7 +23,11 @@ const Category = () => {
   const dispatch = useDispatch()
   const clickHandler = (value) => {
     setActive(value)
+    if(value === "All"){
+      dispatch(fetchPopularVideos())
+    } else {
     dispatch(fetchVideosByCategory(value))
+    }
   }
 
   return (

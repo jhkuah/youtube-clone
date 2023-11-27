@@ -1,7 +1,7 @@
 import { HOME_VIDEOS_FAIL, HOME_VIDEOS_REQUEST, HOME_VIDEOS_SUCCESS} from "../reducers/actionType"
 import request from "../../api"
 
-export const fetchPopularVideos = () => async dispatch => {
+export const fetchPopularVideos = () => async (dispatch, getState) => {
     try {
         dispatch({
             type: HOME_VIDEOS_REQUEST,
@@ -12,7 +12,7 @@ export const fetchPopularVideos = () => async dispatch => {
                 chart: "mostPopular",
                 regionCode: "MY",
                 maxResults: 20,
-                pageToken: "",
+                pageToken: getState().homeVideos.nextPageToken,
             }
         })
 
