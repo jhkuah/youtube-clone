@@ -5,7 +5,7 @@ import {
   SELECTED_VIDEO_FAIL,
   SELECTED_VIDEO_REQUEST,
   SELECTED_VIDEO_SUCCESS,
-} from "./actionType";
+} from "../actionType";
 
 export const homeVideosReducer = (
   state = {

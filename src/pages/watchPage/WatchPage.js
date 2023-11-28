@@ -35,7 +35,10 @@ const WatchPage = () => {
           <h6>Loading...</h6>
         )}
 
-        <CommentsSection />
+        <CommentsSection
+          videoId={id}
+          totalComments={video?.statistics?.commentCount}
+        />
       </Col>
       <Col lg={4}>
         {[...Array(10)].map(() => (
