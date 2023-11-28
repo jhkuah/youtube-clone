@@ -1,17 +1,17 @@
-import {createStore, applyMiddleware, combineReducers} from '@reduxjs/toolkit'
-import {composeWithDevTools} from 'redux-devtools-extension'
-import thunk from 'redux-thunk'
+import { configureStore } from "@reduxjs/toolkit";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-import authReducer from './auth.reducer'
-import { homeVideosReducer } from './video.reducer'
+import authReducer from "./auth.reducer";
+import { homeVideosReducer } from "./video.reducer";
 
-const rootReducer = combineReducers({
-    auth: authReducer,
-    homeVideos: homeVideosReducer
-    
-})
+const rootReducer = {
+  auth: authReducer,
+  homeVideos: homeVideosReducer,
+};
 
+const store = configureStore({
+  reducer: rootReducer,
+  devTools: composeWithDevTools(),
+});
 
-const store = createStore(rootReducer, {}, composeWithDevTools(applyMiddleware(thunk)))
-
-export default store
+export default store;

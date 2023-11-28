@@ -26,7 +26,7 @@ const VideoMetadata = () => {
           <img
             src="https://shorturl.at/dFSZ6"
             alt=""
-            className="rounded-circle mr-3"
+            className="rounded-circle me-3"
             style={{ width: "36px", height: "36px" }}
           />
           <div className="d-flex flex-column">
