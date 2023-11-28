@@ -1,10 +1,11 @@
-import React from 'react';
+import React from "react";
 import "./_header.scss";
-import {FaBars} from "react-icons/fa"
-import {AiOutlineSearch} from "react-icons/ai"
-import {MdNotifications, MdApps} from "react-icons/md"
+import { FaBars } from "react-icons/fa";
+import { AiOutlineSearch } from "react-icons/ai";
+import { MdNotifications, MdApps } from "react-icons/md";
 
-const Header = ({toggleSidebarHandler}) => {
+const Header = ({ toggleSidebarHandler }) => {
+  const profile = JSON.parse(sessionStorage.getItem("ytc-user"));
   return (
     <div className="header">
       <FaBars
@@ -26,10 +27,10 @@ const Header = ({toggleSidebarHandler}) => {
       <div className="header__icons">
         <MdNotifications size={30} />
         <MdApps size={30} />
-        <img src="https://shorturl.at/dFSZ6" alt="" />
+        <img src={profile?.photoURL} alt="" />
       </div>
     </div>
   );
-}
+};
 
-export default Header
+export default Header;
