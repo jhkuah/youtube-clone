@@ -2,6 +2,9 @@ import {
   HOME_VIDEOS_FAIL,
   HOME_VIDEOS_REQUEST,
   HOME_VIDEOS_SUCCESS,
+  SELECTED_VIDEO_FAIL,
+  SELECTED_VIDEO_REQUEST,
+  SELECTED_VIDEO_SUCCESS,
 } from "../reducers/actionType";
 import request from "../../api";
 
@@ -67,3 +70,27 @@ export const fetchVideosByCategory =
       });
     }
   };
+
+export const fetchVideosById = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SELECTED_VIDEO_REQUEST,
+    });
+    const { data } = await request("/videos", {
+      params: {
+        part: "snippet,statistics",
+        id: id,
+      },
+    });
+
+    dispatch({
+      type: SELECTED_VIDEO_SUCCESS,
+      payload: data.items[0],
+    });
+  } catch (error) {
+    dispatch({
+      type: SELECTED_VIDEO_FAIL,
+      payload: error.message,
+    });
+  }
+};
