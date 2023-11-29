@@ -7,6 +7,9 @@ import {
   SELECTED_VIDEO_SUCCESS,
   LIKE_VIDEO,
   DISLIKE_VIDEO,
+  LIKED_VIDEO_REQUEST,
+  LIKED_VIDEO_SUCCESS,
+  LIKED_VIDEO_FAIL,
 } from "../actionType";
 import request from "../../api";
 
@@ -120,7 +123,6 @@ export const likeVideo = (id) => async (dispatch, getState) => {
   }
 };
 
-// Function to dislike a video
 export const dislikeVideo = (id) => async (dispatch, getState) => {
   try {
     await request.post(
@@ -141,5 +143,38 @@ export const dislikeVideo = (id) => async (dispatch, getState) => {
     });
   } catch (error) {
     console.error("Error liking video:", error.message);
+  }
+};
+
+export const fetchLikedVideos = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: LIKED_VIDEO_REQUEST,
+    });
+
+    const { data } = await request("/videos", {
+      params: {
+        part: "snippet, contentDetails, statistics",
+        myRating: "like",
+        maxResults: 20,
+        pageToken: getState().likedVideos.nextPageToken,
+      },
+      headers: {
+        Authorization: `Bearer ${getState().auth?.accessToken}`,
+      },
+    });
+
+    dispatch({
+      type: LIKED_VIDEO_SUCCESS,
+      payload: {
+        videos: data.items,
+        nextPageToken: data.nextPageToken || null,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: LIKED_VIDEO_FAIL,
+      payload: error.message,
+    });
   }
 };

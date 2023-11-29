@@ -7,7 +7,10 @@ import moment from "moment";
 import { likeVideo, dislikeVideo } from "../../redux/actions/video.action";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchChannelDetails } from "../../redux/actions/channel.action";
+import {
+  fetchChannelDetails,
+  checkSubscriptionStatus,
+} from "../../redux/actions/channel.action";
 
 const VideoMetadata = ({ video, videoId }) => {
   const {
@@ -37,6 +40,15 @@ const VideoMetadata = ({ video, videoId }) => {
   const handleDislikeClick = () => {
     dispatch(dislikeVideo(videoId));
   };
+
+  const subscriptionStatus = useSelector(
+    (state) => state.channelDetails.subscriptionStatus
+  );
+
+  useEffect(() => {
+    dispatch(fetchChannelDetails(channelId));
+    dispatch(checkSubscriptionStatus(channelId));
+  }, [dispatch, channelId]);
 
   return (
     <div className="videoMetadata py-2">
@@ -70,7 +82,11 @@ const VideoMetadata = ({ video, videoId }) => {
             <span>{formattedSubscribersCount} subscribers</span>
           </div>
         </div>
-        <button className="btn border-0 p-2 m-2">Subscribe</button>
+        <button
+          className={`p-2 m-2 border-0 btn ${subscriptionStatus && "btn-gray"}`}
+        >
+          {subscriptionStatus ? "Subscribed" : "Subscribe"}
+        </button>
       </div>
 
       <div className="videoMetadata__desc">

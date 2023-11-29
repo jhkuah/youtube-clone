@@ -6,6 +6,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import LoginPage from "./pages/loginPage/LoginPage";
 import HomePage from "./pages/homePage/HomePage";
 import WatchPage from "./pages/watchPage/WatchPage";
+import LikedPage from "./pages/likedPage/LikedPage";
 
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 
@@ -14,12 +15,17 @@ import { useSelector } from "react-redux";
 
 const Layout = ({ children }) => {
   const [sidebar, toggleSidebar] = useState(false);
+  const navigate = useNavigate;
 
   const toggleSidebarHandler = () => toggleSidebar((value) => !value);
+  const navigateHome = () => navigate("/");
 
   return (
     <>
-      <Header toggleSidebarHandler={toggleSidebarHandler} />
+      <Header
+        toggleSidebarHandler={toggleSidebarHandler}
+        navigateHome={navigateHome}
+      />
       <div className="app__container">
         <Sidebar
           sidebar={sidebar}
@@ -67,6 +73,14 @@ const App = () => {
         element={
           <Layout>
             <WatchPage />
+          </Layout>
+        }
+      />
+      <Route
+        path="/likes"
+        element={
+          <Layout>
+            <LikedPage />
           </Layout>
         }
       />

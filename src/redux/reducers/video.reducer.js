@@ -7,6 +7,9 @@ import {
   SELECTED_VIDEO_SUCCESS,
   LIKE_VIDEO,
   DISLIKE_VIDEO,
+  LIKED_VIDEO_SUCCESS,
+  LIKED_VIDEO_FAIL,
+  LIKED_VIDEO_REQUEST,
 } from "../actionType";
 
 export const homeVideosReducer = (
@@ -102,6 +105,44 @@ export const ratingReducer = (
         ...state,
         isLiked: false,
         isDisliked: !state.isDisliked,
+      };
+    default:
+      return state;
+  }
+};
+
+export const likedVideosReducer = (
+  state = {
+    videos: [],
+    loading: false,
+    nextPageToken: null,
+  },
+  action
+) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case LIKED_VIDEO_SUCCESS:
+      return {
+        ...state,
+        videos: [...state.videos, ...payload.videos],
+
+        loading: false,
+        nextPageToken: payload.nextPageToken,
+        activeCategory: payload.category,
+      };
+
+    case LIKED_VIDEO_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+
+    case LIKED_VIDEO_REQUEST:
+      return {
+        ...state,
+        loading: true,
       };
     default:
       return state;

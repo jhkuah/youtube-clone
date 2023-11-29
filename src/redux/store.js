@@ -7,6 +7,7 @@ import {
   homeVideosReducer,
   selectedVideoReducer,
   ratingReducer,
+  likedVideosReducer,
 } from "./reducers/video.reducer";
 import { commentsReducer } from "./reducers/comments.reducer";
 import { channelDetailsReducer } from "./reducers/channel.reducer";
@@ -18,6 +19,7 @@ const rootReducer = {
   commentsList: commentsReducer,
   channelDetails: channelDetailsReducer,
   ratingDetails: ratingReducer,
+  likedVideos: likedVideosReducer,
 };
 
 const middleware = [

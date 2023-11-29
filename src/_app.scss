@@ -1,7 +1,11 @@
 .app__container {
-   display: flex;
-   margin-top: 10vh
+  display: flex;
+  margin-top: 10vh;
 }
 .app__home {
-   overflow-y: scroll;
+  overflow-y: scroll;
+}
+
+.btn-gray {
+  background-color: gray !important;
 }
