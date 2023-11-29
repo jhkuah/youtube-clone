@@ -1,42 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./_videoMetadata.scss";
 import { MdThumbDown, MdThumbUp } from "react-icons/md";
 import ReactShowMoreText from "react-show-more-text";
 import numeral from "numeral";
 import moment from "moment";
-import request from "../../api";
+import { likeVideo, dislikeVideo } from "../../redux/actions/video.action";
 
-const VideoMetadata = ({ video }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { fetchChannelDetails } from "../../redux/actions/channel.action";
+
+const VideoMetadata = ({ video, videoId }) => {
   const {
     snippet: { channelId, channelTitle, description, publishedAt, title },
     statistics: { viewCount, likeCount },
   } = video;
 
-  const [subscribers, setSubscribers] = useState(null);
-  const [channelIcon, setChannelIcon] = useState(null);
+  const dispatch = useDispatch();
+  const { snippet: channelSnippet, statistics: channelStatistics } =
+    useSelector((state) => state.channelDetails.channel);
+  const { isLiked, isDisliked } = useSelector((state) => state.ratingDetails);
   const formattedViews = numeral(viewCount).format("0.a").toUpperCase();
   const formattedLikesCount = numeral(likeCount).format("0.a").toUpperCase();
-  const formattedSubscribersCount = numeral(subscribers)
+  const formattedSubscribersCount = numeral(channelStatistics?.subscriberCount)
     .format("0.a")
     .toUpperCase();
   const formattedPublishedAt = moment(publishedAt).fromNow();
 
   useEffect(() => {
-    const fetchChannelDetails = async () => {
-      const {
-        data: { items },
-      } = await request("/channels", {
-        params: {
-          part: "statistics, snippet",
-          id: channelId,
-        },
-      });
-      setSubscribers(items[0].statistics.subscriberCount);
-      setChannelIcon(items[0].snippet.thumbnails.default);
-      console.log(items);
-    };
-    fetchChannelDetails();
-  }, [channelId]);
+    dispatch(fetchChannelDetails(channelId));
+  }, [dispatch, channelId]);
+
+  const handleLikeClick = () => {
+    dispatch(likeVideo(videoId));
+  };
+
+  const handleDislikeClick = () => {
+    dispatch(dislikeVideo(videoId));
+  };
 
   return (
     <div className="videoMetadata py-2">
@@ -47,11 +47,12 @@ const VideoMetadata = ({ video }) => {
             {formattedViews} views • {formattedPublishedAt}
           </span>
           <div>
-            <span className="me-3">
-              <MdThumbUp size={26} /> {formattedLikesCount}
+            <span className="me-3" onClick={handleLikeClick}>
+              <MdThumbUp size={26} color={isLiked ? "white" : "gray"} />{" "}
+              {formattedLikesCount}
             </span>
-            <span>
-              <MdThumbDown size={26} />
+            <span onClick={handleDislikeClick}>
+              <MdThumbDown size={26} color={isDisliked ? "white" : "gray"} />
             </span>
           </div>
         </div>
@@ -59,7 +60,11 @@ const VideoMetadata = ({ video }) => {
 
       <div className="videoMetadata__channel d-flex justify-content-between align-items-center my-2 py-3">
         <div className="d-flex">
-          <img src={channelIcon?.url} alt="" className="rounded-circle me-3" />
+          <img
+            src={channelSnippet?.thumbnails?.default?.url}
+            alt=""
+            className="rounded-circle me-3"
+          />
           <div className="d-flex flex-column">
             <span>{channelTitle}</span>
             <span>{formattedSubscribersCount} subscribers</span>

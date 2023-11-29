@@ -5,6 +5,8 @@ import {
   SELECTED_VIDEO_FAIL,
   SELECTED_VIDEO_REQUEST,
   SELECTED_VIDEO_SUCCESS,
+  LIKE_VIDEO,
+  DISLIKE_VIDEO,
 } from "../actionType";
 
 export const homeVideosReducer = (
@@ -75,6 +77,31 @@ export const selectedVideoReducer = (
         video: null,
         loading: false,
         error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const ratingReducer = (
+  state = {
+    isLiked: false,
+    isDisliked: false,
+  },
+  action
+) => {
+  switch (action.type) {
+    case LIKE_VIDEO:
+      return {
+        ...state,
+        isLiked: !state.isLiked,
+        isDisliked: false,
+      };
+    case DISLIKE_VIDEO:
+      return {
+        ...state,
+        isLiked: false,
+        isDisliked: !state.isDisliked,
       };
     default:
       return state;

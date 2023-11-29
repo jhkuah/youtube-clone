@@ -1,4 +1,9 @@
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import firebaseApp from "../../firebase";
 import {
   LOAD_PROFILE,
@@ -15,11 +20,16 @@ export const login = async (dispatch) => {
     dispatch({
       type: LOGIN_REQUEST,
     });
+
     const provider = new GoogleAuthProvider();
     provider.addScope("https://www.googleapis.com/auth/youtube.force-ssl");
 
     const res = await signInWithPopup(auth, provider);
-    const accessToken = res.user.accessToken;
+    const credential = GoogleAuthProvider.credentialFromResult(res);
+    console.log(credential);
+
+    const accessToken = credential.accessToken;
+    // const accessToken = res.user.accessToken;
     const profile = {
       name: res.user.displayName,
       photoURL: res.user.photoURL,
@@ -46,11 +56,20 @@ export const login = async (dispatch) => {
 };
 
 export const logout = async (dispatch) => {
-  await auth.signOut();
-  dispatch({
-    type: LOG_OUT,
-  });
+  try {
+    // Sign out from Firebase Authentication
+    await signOut(auth);
 
-  sessionStorage.removeItem("ytc-access-token");
-  sessionStorage.removeItem("ytc-user");
+    // Clear the session storage
+    sessionStorage.removeItem("ytc-access-token");
+    sessionStorage.removeItem("ytc-user");
+
+    // Dispatch the LOG_OUT action
+    dispatch({
+      type: LOG_OUT,
+    });
+  } catch (error) {
+    console.error("Error logging out:", error);
+    // Handle logout error if needed
+  }
 };

@@ -12,11 +12,11 @@ const initialState = {
     : null,
   user: sessionStorage.getItem("ytc-user")
     ? JSON.parse(sessionStorage.getItem("ytc-user"))
-    : null,
+    : 0,
   loading: false,
 };
 
-const authReducer = (prevState = initialState, action) => {
+export const authReducer = (prevState = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -47,12 +47,10 @@ const authReducer = (prevState = initialState, action) => {
       return {
         ...prevState,
         accessToken: null,
-        user: null,
+        user: 0,
       };
 
     default:
       return prevState;
   }
 };
-
-export default authReducer;

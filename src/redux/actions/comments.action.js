@@ -30,36 +30,38 @@ export const getVideoComments = (id) => async (dispatch) => {
   }
 };
 
-export const addComment = (id, text) => async (dispatch, getState) => {
-  try {
-    const obj = {
-      snippet: {
-        videoId: id,
-        topLevelComment: {
-          snippet: {
-            textOriginal: text,
+export const addComment =
+  (channelId, id, text) => async (dispatch, getState) => {
+    try {
+      const obj = {
+        snippet: {
+          channelId: channelId,
+          videoId: id,
+          topLevelComment: {
+            snippet: {
+              textOriginal: text,
+            },
           },
         },
-      },
-    };
-    await request.post("/commentThreads", obj, {
-      params: {
-        part: "snippet",
-      },
-      headers: {
-        Authorization: `Bearer ${getState().auth?.accessToken}`,
-      },
-    });
-    dispatch({
-      type: CREATE_COMMENT_SUCCESS,
-    });
+      };
+      await request.post("/commentThreads", obj, {
+        params: {
+          part: "snippet",
+        },
+        headers: {
+          Authorization: `Bearer ${getState().auth?.accessToken}`,
+        },
+      });
+      dispatch({
+        type: CREATE_COMMENT_SUCCESS,
+      });
 
-    setTimeout(() => dispatch(getVideoComments(id)), 3000);
-  } catch (error) {
-    console.log(error.response.data);
-    dispatch({
-      type: CREATE_COMMENT_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+      setTimeout(() => dispatch(getVideoComments(id)), 5000);
+    } catch (error) {
+      console.log(error.response.data);
+      dispatch({
+        type: CREATE_COMMENT_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };

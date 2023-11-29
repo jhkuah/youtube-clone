@@ -8,8 +8,7 @@ import {
   addComment,
 } from "../../redux/actions/comments.action";
 
-const Comments = ({ videoId, totalComments }) => {
-  const profile = JSON.parse(sessionStorage.getItem("ytc-user"));
+const CommentsSection = ({ videoId, totalComments, channelId }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getVideoComments(videoId));
@@ -17,7 +16,7 @@ const Comments = ({ videoId, totalComments }) => {
 
   const comments = useSelector((state) => state.commentsList.comments);
   const [text, setText] = useState("");
-  // const { photoURL } = useSelector((state) => state.auth?.user);
+  const { photoURL } = useSelector((state) => state.auth?.user);
 
   const topComments = comments?.map(
     (comment) => comment.snippet.topLevelComment.snippet
@@ -30,7 +29,7 @@ const Comments = ({ videoId, totalComments }) => {
     e.preventDefault();
     if (text.length === 0) return;
 
-    dispatch(addComment(videoId, text));
+    dispatch(addComment(channelId, videoId, text));
 
     setText("");
   };
@@ -38,7 +37,7 @@ const Comments = ({ videoId, totalComments }) => {
     <div className="comments__section">
       <p>{formattedCommentsCount} comments</p>
       <div className="comments__section__form d-flex w-100 my-2">
-        <img src={profile?.photoURL} alt="" className="rounded-circle me-3" />
+        <img src={photoURL} alt="avatar" className="rounded-circle me-3" />
         <form onSubmit={commentHandler} className="d-flex flex-grow-1">
           <input
             type="text"
@@ -59,4 +58,4 @@ const Comments = ({ videoId, totalComments }) => {
   );
 };
 
-export default Comments;
+export default CommentsSection;

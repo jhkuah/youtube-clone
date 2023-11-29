@@ -62,7 +62,6 @@ const App = () => {
           </Layout>
         }
       />
-      <Route path="*" element={<Navigate to="/" />} />
       <Route
         path="/watch/:id"
         element={
@@ -71,6 +70,7 @@ const App = () => {
           </Layout>
         }
       />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };

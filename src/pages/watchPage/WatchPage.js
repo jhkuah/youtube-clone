@@ -22,7 +22,7 @@ const WatchPage = () => {
         <div className="watchPage__player">
           <iframe
             src={`https://www.youtube.com/embed/${id}`}
-            frameborder="0"
+            frameBorder="0"
             title={video?.snippet?.title}
             width="100%"
             height="100%"
@@ -36,13 +36,14 @@ const WatchPage = () => {
         )}
 
         <CommentsSection
+          channelId={video?.snippet?.channelId}
           videoId={id}
           totalComments={video?.statistics?.commentCount}
         />
       </Col>
       <Col lg={4}>
-        {[...Array(10)].map(() => (
-          <SuggestedVideo />
+        {[...Array(10)].map((_, index) => (
+          <SuggestedVideo key={index} videoId={index} />
         ))}
       </Col>
     </Row>

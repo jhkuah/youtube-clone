@@ -10,11 +10,14 @@ import {
 } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/actions/auth.action";
+import { useNavigate } from "react-router";
 
 const Sidebar = ({ sidebar, toggleSidebarHandler }) => {
   const dispatch = useDispatch();
-  const logoutHandler = () => {
-    logout(dispatch);
+  const navigate = useNavigate();
+  const logoutHandler = async () => {
+    await logout(dispatch);
+    navigate("/login");
   };
   return (
     <nav

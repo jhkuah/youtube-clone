@@ -5,6 +5,8 @@ import {
   SELECTED_VIDEO_FAIL,
   SELECTED_VIDEO_REQUEST,
   SELECTED_VIDEO_SUCCESS,
+  LIKE_VIDEO,
+  DISLIKE_VIDEO,
 } from "../actionType";
 import request from "../../api";
 
@@ -92,5 +94,52 @@ export const fetchVideosById = (id) => async (dispatch) => {
       type: SELECTED_VIDEO_FAIL,
       payload: error.message,
     });
+  }
+};
+
+export const likeVideo = (id) => async (dispatch, getState) => {
+  try {
+    await request.post(
+      `/videos/rate`,
+      {
+        id: id,
+        rating: "like",
+      },
+      {
+        params: {
+          access_token: getState().auth?.accessToken,
+        },
+      }
+    );
+
+    dispatch({
+      type: LIKE_VIDEO,
+    });
+  } catch (error) {
+    console.error("Error liking video:", error.message);
+  }
+};
+
+// Function to dislike a video
+export const dislikeVideo = (id) => async (dispatch, getState) => {
+  try {
+    await request.post(
+      `/videos/rate`,
+      {
+        id: id,
+        rating: "dislike",
+      },
+      {
+        params: {
+          access_token: getState().auth?.accessToken,
+        },
+      }
+    );
+
+    dispatch({
+      type: DISLIKE_VIDEO,
+    });
+  } catch (error) {
+    console.error("Error liking video:", error.message);
   }
 };
