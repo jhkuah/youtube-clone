@@ -14,3 +14,7 @@ This project is a YouTube clone that incorporates user authentication using Fire
 
 - **SASS Styling**: Styling is done using SASS, a powerful and efficient CSS extension language.
 
+- Currently able to add comments, like and dislike videos, search by keywords and categories
+
+- More features to be added!
+
