@@ -41,6 +41,15 @@
       background-color: $border-color;
     }
   }
+  .disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    color: #888;
+  }
+
+  .disabled:hover {
+    background-color: transparent;
+  }
 
   hr {
     background-color: $border-color;

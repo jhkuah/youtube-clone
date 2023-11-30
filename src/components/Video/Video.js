@@ -69,7 +69,6 @@ const Video = ({ video }) => {
   return (
     <div className="video" onClick={videoClickHandler}>
       <div className="video__thumbnail">
-        {/* <img src={medium.url} alt="" /> */}
         <LazyLoadImage src={medium.url} effect="blur" />
         <span className="video__thumbnail__duration">{formattedDuration}</span>
       </div>
@@ -81,11 +80,6 @@ const Video = ({ video }) => {
         <span>{formattedPublishedAt}</span>
       </div>
       <div className="video__channel">
-        {/* <img
-          // src={channelIcon?.url}
-          
-          alt=""
-        /> */}
         <LazyLoadImage src={channelIcon?.url} effect="blur" />
         <p>{channelTitle}</p>
       </div>

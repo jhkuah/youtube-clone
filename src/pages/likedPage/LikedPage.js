@@ -4,6 +4,7 @@ import Video from "../../components/Video/Video";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLikedVideos } from "../../redux/actions/video.action";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Helmet } from "react-helmet";
 
 const LikedPage = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,9 @@ const LikedPage = () => {
   };
   return (
     <Container>
+      <Helmet>
+        <title>Liked Videos</title>
+      </Helmet>
       <InfiniteScroll
         dataLength={videos.length}
         next={fetchData}

@@ -56,7 +56,7 @@ export const addComment =
         type: CREATE_COMMENT_SUCCESS,
       });
 
-      setTimeout(() => dispatch(getVideoComments(id)), 5000);
+      setTimeout(() => dispatch(getVideoComments(id)), 3000);
     } catch (error) {
       console.log(error.response.data);
       dispatch({

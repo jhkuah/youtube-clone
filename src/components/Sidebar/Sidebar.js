@@ -37,24 +37,27 @@ const Sidebar = ({ sidebar, toggleSidebarHandler }) => {
           <span>Liked Videos</span>
         </li>
       </Link>
-      <li>
+
+      <li className="disabled">
         <MdSubscriptions size={23} />
         <span>Subscriptions</span>
       </li>
-      <li>
+
+      <li className="disabled">
         <MdHistory size={23} />
         <span>History</span>
       </li>
-      <li>
+
+      <li className="disabled">
         <MdLibraryBooks size={23} />
         <span>Comments</span>
       </li>
+
       <hr />
-      <li onClick={logoutHandler}>
+      <li onClick={logoutHandler} className="mt-auto">
         <MdExitToApp size={23} />
         <span>Log Out</span>
       </li>
-      <hr />
     </nav>
   );
 };

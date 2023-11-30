@@ -22,10 +22,7 @@ const rootReducer = {
   likedVideos: likedVideosReducer,
 };
 
-const middleware = [
-  ...getDefaultMiddleware(),
-  thunk, // Add the thunk middleware
-];
+const middleware = [...getDefaultMiddleware(), thunk];
 
 const store = configureStore({
   reducer: rootReducer,

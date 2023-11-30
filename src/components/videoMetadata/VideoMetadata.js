@@ -58,7 +58,7 @@ const VideoMetadata = ({ video, videoId }) => {
           <span>
             {formattedViews} views • {formattedPublishedAt}
           </span>
-          <div>
+          <div className="me-1">
             <span className="me-3" onClick={handleLikeClick}>
               <MdThumbUp size={26} color={isLiked ? "white" : "gray"} />{" "}
               {formattedLikesCount}
