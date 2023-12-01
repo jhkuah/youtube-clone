@@ -8,13 +8,13 @@ import {
   addComment,
 } from "../../redux/actions/comments.action";
 
-const CommentsSection = ({ videoId, totalComments, channelId }) => {
+const CommentsSection = ({ channelId, videoId, totalComments }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getVideoComments(videoId));
   }, [videoId, dispatch]);
 
-  const comments = useSelector((state) => state.commentsList.comments);
+  const { comments, loading } = useSelector((state) => state.commentsList);
   const [text, setText] = useState("");
   const { photoURL } = useSelector((state) => state.auth?.user);
 
@@ -50,9 +50,13 @@ const CommentsSection = ({ videoId, totalComments, channelId }) => {
         </form>
       </div>
       <div className="comments__section__list">
-        {topComments?.map((comment, i) => (
-          <Comment comment={comment} key={i} />
-        ))}
+        {loading ? (
+          <h2>Loading comments</h2>
+        ) : (
+          topComments?.map((comment, i) => (
+            <Comment comment={comment} key={i} />
+          ))
+        )}
       </div>
     </div>
   );

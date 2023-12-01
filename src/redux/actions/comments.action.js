@@ -52,6 +52,7 @@ export const addComment =
           Authorization: `Bearer ${getState().auth?.accessToken}`,
         },
       });
+
       dispatch({
         type: CREATE_COMMENT_SUCCESS,
       });

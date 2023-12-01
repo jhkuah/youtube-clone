@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet";
 
 const LikedPage = () => {
   const dispatch = useDispatch();
-  const { videos } = useSelector((state) => state.likedVideos);
+  const { videos, loading } = useSelector((state) => state.likedVideos);
   useEffect(() => {
     dispatch(fetchLikedVideos());
   }, [dispatch]);
@@ -24,17 +24,18 @@ const LikedPage = () => {
       <InfiniteScroll
         dataLength={videos.length}
         next={fetchData}
-        hasMore={true}
+        hasMore={videos.length > 20 ?? true}
         loader={
           <div className="spinner-border text-danger d-block mx-auto"></div>
         }
       >
         <Row>
-          {videos.map((video) => (
-            <Col key={video.id} lg={3} md={4}>
-              <Video video={video} />
-            </Col>
-          ))}
+          {!loading &&
+            videos.map((video) => (
+              <Col key={video.id} lg={3} md={4}>
+                <Video video={video} />
+              </Col>
+            ))}
         </Row>
       </InfiniteScroll>
     </Container>
