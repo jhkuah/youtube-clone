@@ -10,6 +10,8 @@ import {
   LIKED_VIDEO_SUCCESS,
   LIKED_VIDEO_FAIL,
   LIKED_VIDEO_REQUEST,
+  SEARCH_VIDEOS_REQUEST,
+  SEARCH_VIDEOS_SUCCESS,
 } from "../actionType";
 
 export const homeVideosReducer = (
@@ -144,6 +146,40 @@ export const likedVideosReducer = (
         ...state,
         loading: true,
       };
+    default:
+      return state;
+  }
+};
+
+export const searchVideosReducer = (
+  state = {
+    videos: [],
+    loading: true,
+  },
+  action
+) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case SEARCH_VIDEOS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case SEARCH_VIDEOS_SUCCESS:
+      return {
+        ...state,
+        videos: payload,
+        loading: false,
+      };
+
+    case HOME_VIDEOS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+
     default:
       return state;
   }

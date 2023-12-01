@@ -12,6 +12,7 @@ import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 
 import "./_app.scss";
 import { useSelector } from "react-redux";
+import SearchPage from "./pages/searchPage/SearchPage";
 
 const Layout = ({ children }) => {
   const [sidebar, toggleSidebar] = useState(false);
@@ -61,10 +62,10 @@ const App = () => {
       />
       <Route path="/login" element={<LoginPage />} />
       <Route
-        path="/search"
+        path="/search/:query"
         element={
           <Layout>
-            <h1>Search Results</h1>
+            <SearchPage />
           </Layout>
         }
       />

@@ -8,6 +8,7 @@ import {
   selectedVideoReducer,
   ratingReducer,
   likedVideosReducer,
+  searchVideosReducer,
 } from "./reducers/video.reducer";
 import { commentsReducer } from "./reducers/comments.reducer";
 import { channelDetailsReducer } from "./reducers/channel.reducer";
@@ -20,6 +21,7 @@ const rootReducer = {
   channelDetails: channelDetailsReducer,
   ratingDetails: ratingReducer,
   likedVideos: likedVideosReducer,
+  searchVideos: searchVideosReducer,
 };
 
 const middleware = [...getDefaultMiddleware(), thunk];

@@ -3,7 +3,7 @@ import "./_suggestedVideo.scss";
 import { Row, Col } from "react-bootstrap";
 import { AiFillEye } from "react-icons/ai";
 import request from "../../api";
-
+import { useNavigate } from "react-router";
 import moment from "moment/moment";
 import numeral from "numeral";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -16,6 +16,7 @@ const SuggestedVideo = ({ video }) => {
       channelTitle,
       title,
       publishedAt,
+      description,
       thumbnails: { medium },
     },
   } = video;
@@ -23,6 +24,7 @@ const SuggestedVideo = ({ video }) => {
   const [views, setViews] = useState(null);
   const [duration, setDuration] = useState(null);
   const [channelIcon, setChannelIcon] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const videoDetails = async () => {
@@ -55,12 +57,19 @@ const SuggestedVideo = ({ video }) => {
     fetchChannelIcon();
   }, [channelId]);
 
+  const handleClick = () => {
+    navigate(`/watch/${id.videoId}`);
+  };
+
   const seconds = moment.duration(duration).asSeconds();
   const formattedDuration = moment.utc(seconds * 1000).format("mm:ss");
   const formattedViews = numeral(views).format("0.a").toUpperCase();
   const formattedPublishedAt = moment(publishedAt).fromNow();
   return (
-    <Row className="suggestedVideo m-1 py-2 align-items-center">
+    <Row
+      className="suggestedVideo m-1 py-2 align-items-center"
+      onClick={handleClick}
+    >
       <Col xs={6} md={4} className="suggestedVideo__left">
         <LazyLoadImage
           src={medium.url}
@@ -78,8 +87,9 @@ const SuggestedVideo = ({ video }) => {
           </span>
           <span>{formattedPublishedAt}</span>
         </div>
+        <p className="mt-1 videoHorizontal__desc">{description}</p>
         <div className="suggestedVideo__channel d-flex align-items-center my-1">
-          {/* <LazyLoadImage src="https://shorturl.at/dFSZ6" effect="blur" /> */}
+          <LazyLoadImage src={channelIcon?.url} effect="blur" />
           <p>{channelTitle}</p>
         </div>
       </Col>

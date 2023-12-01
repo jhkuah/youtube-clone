@@ -10,6 +10,9 @@ import {
   LIKED_VIDEO_REQUEST,
   LIKED_VIDEO_SUCCESS,
   LIKED_VIDEO_FAIL,
+  SEARCH_VIDEOS_REQUEST,
+  SEARCH_VIDEOS_FAIL,
+  SEARCH_VIDEOS_SUCCESS,
 } from "../actionType";
 import request from "../../api";
 
@@ -174,6 +177,32 @@ export const fetchLikedVideos = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: LIKED_VIDEO_FAIL,
+      payload: error.message,
+    });
+  }
+};
+
+export const fetchVideosBySearch = (keywords) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SEARCH_VIDEOS_REQUEST,
+    });
+    const { data } = await request("/search", {
+      params: {
+        part: "snippet",
+        maxResults: 20,
+        q: keywords,
+        type: "video",
+      },
+    });
+
+    dispatch({
+      type: SEARCH_VIDEOS_SUCCESS,
+      payload: data.items,
+    });
+  } catch (error) {
+    dispatch({
+      type: SEARCH_VIDEOS_FAIL,
       payload: error.message,
     });
   }
