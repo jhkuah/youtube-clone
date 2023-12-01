@@ -10,7 +10,7 @@ const Header = ({ toggleSidebarHandler }) => {
   const navigate = useNavigate();
   const searchHandler = (e) => {
     e.preventDefault();
-    navigate(`search/${input}`);
+    navigate(`/search/${input}`);
   };
   const profile = JSON.parse(sessionStorage.getItem("ytc-user"));
   return (

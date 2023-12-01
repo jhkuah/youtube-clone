@@ -74,12 +74,12 @@ const SuggestedVideo = ({ video }) => {
         <LazyLoadImage
           src={medium.url}
           effect="blur"
-          className="rounded-circle suggestedVideo__thumbnail"
+          className="suggestedVideo__thumbnail"
           wrapperClassName="suggestedVideo__thumbnail__wrapper"
         />
         <span className="suggestedVideo__duration">{formattedDuration}</span>
       </Col>
-      <Col xs={6} md={8} className="suggestedVideo__right p-0">
+      <Col xs={6} md={8} className="suggestedVideo__right p-2">
         <p className="suggestedVideo__title mb-1">{title}</p>
         <div className="suggestedVideo__details">
           <span>

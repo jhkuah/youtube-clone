@@ -7,12 +7,12 @@ import LoginPage from "./pages/loginPage/LoginPage";
 import HomePage from "./pages/homePage/HomePage";
 import WatchPage from "./pages/watchPage/WatchPage";
 import LikedPage from "./pages/likedPage/LikedPage";
+import SearchPage from "./pages/searchPage/searchPage";
 
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 
 import "./_app.scss";
 import { useSelector } from "react-redux";
-import SearchPage from "./pages/searchPage/SearchPage";
 
 const Layout = ({ children }) => {
   const [sidebar, toggleSidebar] = useState(false);

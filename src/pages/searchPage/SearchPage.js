@@ -5,11 +5,12 @@ import { fetchVideosBySearch } from "../../redux/actions/video.action";
 import { Container } from "react-bootstrap";
 import SuggestedVideo from "../../components/SuggestedVideo/SuggestedVideo";
 const SearchPage = () => {
-  const { query } = useParams;
+  const { query } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchVideosBySearch(query));
   }, [query, dispatch]);
+  console.log(query);
 
   const { videos, loading } = useSelector((state) => state.searchVideos);
   return (
